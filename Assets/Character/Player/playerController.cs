@@ -6,16 +6,16 @@ using UnityEngine.InputSystem;
 public class playerController : MonoBehaviour
 {
 
-    public float moveSpeed = 1f;
+    public float speed;
 
-    public float collisionOffset = 0.05f;
+    public float jump;
 
-    public ContactFilter2D movementFilter;
+    private float move;
 
-    Vector2 movementInput;
+    public bool isJumping;
 
-    Rigidbody2D rb;
-    List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
+    private Rigidbody2D rb;
+   
 
 
     // Start is called before the first frame update
@@ -24,26 +24,31 @@ public class playerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    private void FixedUpdate()
+    private void Update()
     {
-        if (movementInput != Vector2.zero)
-        {
-            int count = rb.Cast(
-                movementInput,
-                movementFilter,
-                castCollisions,
-                moveSpeed * Time.fixedDeltaTime + collisionOffset);
+        move = Input.GetAxis("Horizontal");
 
-            if (count == 0)
-            {
-                rb.MovePosition(rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
-            }
+        rb.velocity = new Vector2(speed * move, rb.velocity.y);
+
+        if(Input.GetButtonDown("Jump") && isJumping == false)
+        {
+            rb.AddForce(new Vector2(rb.velocity.x, jump));
         }
     }
 
-    void OnMove(InputValue movementValue)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        movementInput = movementValue.Get<Vector2>();
+        if(other.gameObject.CompareTag("Ground"))
+        {
+            isJumping = false;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            isJumping = true;
+        }
     }
 }
