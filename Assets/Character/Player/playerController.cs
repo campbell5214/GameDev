@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class playerController : MonoBehaviour
 {
 
@@ -12,43 +13,73 @@ public class playerController : MonoBehaviour
 
     private float move;
 
-    public bool isJumping;
+    private bool isGrounded;
 
     private Rigidbody2D rb;
-   
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
+    void Start() { rb = GetComponent<Rigidbody2D>(); }
 
-    private void Update()
+    void Update()
     {
         move = Input.GetAxis("Horizontal");
 
         rb.velocity = new Vector2(speed * move, rb.velocity.y);
 
-        if(Input.GetButtonDown("Jump") && isJumping == false)
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+
         {
-            rb.AddForce(new Vector2(rb.velocity.x, jump));
+            rb.AddForce(Vector2.up * jump, ForceMode2D.Impulse);            // Set isGrounded to false immediately after the jump            isGrounded = false;
+
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if(other.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-        }
-    }
 
-    private void OnCollisionExit2D(Collision2D other)
+    void OnCollisionEnter2D(Collision2D other)
+
     {
+
         if (other.gameObject.CompareTag("Ground"))
+
         {
-            isJumping = true;
+
+            isGrounded = true;
+
         }
+
     }
+
+
+    void OnCollisionExit2D(Collision2D other)
+
+    {
+
+        if (other.gameObject.CompareTag("Ground"))
+
+        {
+
+            isGrounded = false;
+
+        }
+
+    }
+
+
+    void OnCollisionStay2D(Collision2D other)
+
+    {
+
+        if (!isGrounded && other.gameObject.CompareTag("Ground"))
+
+        {
+
+            // Additional check in case OnCollisionEnter2D didn't catch it
+
+            isGrounded = true;
+
+        }
+
+    }
+
 }
