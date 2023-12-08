@@ -17,15 +17,37 @@ public class playerController : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    public float KBForce;
+    public float KBCOunter;
+    public float KBCTotalTime;
+
+    public bool KnockFromRIght;
+
 
     void Start() { rb = GetComponent<Rigidbody2D>(); }
 
     void Update()
     {
-        move = Input.GetAxis("Horizontal");
+        if(KBCOunter <=0)
+        {
+            move = Input.GetAxis("Horizontal");
 
-        rb.velocity = new Vector2(speed * move, rb.velocity.y);
+            rb.velocity = new Vector2(speed * move, rb.velocity.y);
+        }
+        else
+        {
+            if(KnockFromRIght == true)
+            {
+                rb.velocity = new Vector2(-KBForce, KBForce);
+            }
+            if(KnockFromRIght == false)
+            {
+                rb.velocity = new Vector2(KBForce, KBForce);
+            }
 
+            KBCOunter -= Time.deltaTime;
+            
+        }
 
         if (Input.GetButtonDown("Jump") && isGrounded)
 
@@ -81,5 +103,7 @@ public class playerController : MonoBehaviour
         }
 
     }
+
+
 
 }
