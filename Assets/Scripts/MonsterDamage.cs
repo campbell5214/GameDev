@@ -8,6 +8,8 @@ public class MonsterDamage : MonoBehaviour
     public int damage;
     public PlayerHealth playerHealth;
     public playerController PlayerController;
+    public int health = 100;
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -26,5 +28,28 @@ public class MonsterDamage : MonoBehaviour
 
             playerHealth.TakeDamage(damage);
         }
+        //Monster Health
+        if (collision.gameObject.CompareTag("Fireball"))
+        {
+            int damageAmount = collision.gameObject.GetComponent<ProjectileBehaviour>().damage;
+            TakeDamageE(damageAmount);
+        }
     }
+
+    public void TakeDamageE(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        // Handle enemy death
+        Destroy(gameObject);
+    }
+
+
 }
