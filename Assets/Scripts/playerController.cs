@@ -23,8 +23,17 @@ public class playerController : MonoBehaviour
 
     public bool KnockFromRIght;
 
+    private PlayerHealth playerHealth;
 
-    void Start() { rb = GetComponent<Rigidbody2D>(); }
+
+
+
+    void Start() 
+    {   rb = GetComponent<Rigidbody2D>();
+        
+
+
+    }
 
     void Update()
     {
@@ -86,24 +95,22 @@ public class playerController : MonoBehaviour
         }
 
     }
-
-
     void OnCollisionStay2D(Collision2D other)
-
-    {
-
+    { 
         if (!isGrounded && other.gameObject.CompareTag("Ground"))
 
-        {
-
-            // Additional check in case OnCollisionEnter2D didn't catch it
+        {  // Additional check in case OnCollisionEnter2D didn't catch it
 
             isGrounded = true;
-
         }
-
     }
 
-
-
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.Tag == "CheckPoint")
+        {
+            //playerHealth.SetRespawnPoint(other.transform.position);
+            transfrom.position = playerHealth.SetRespawnPoint;
+        }
+    }
 }

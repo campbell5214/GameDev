@@ -4,23 +4,52 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-
     public int maxHealth = 10;
     public int health;
+    private Vector3 respawnPoint;
 
-    // Start is called before the first frame update
+    public ProgressBar healthBar; // Reference to the health bar
+
     void Start()
     {
         health = maxHealth;
+        respawnPoint = transform.position;
+
+        UpdateHealthBar();
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
-        if(health <= 0)
+        if (health <= 0)
         {
-            Destroy(gameObject);
+            Respawn();
         }
-        
+        UpdateHealthBar();
+    }
+
+    private void UpdateHealthBar()
+    {
+        if (healthBar != null)
+        {
+            healthBar.BarValue = (float)health / maxHealth * 100; // Scale the health value to the ProgressBar's scale
+        }
+    }
+
+    public void SetRespawnPoint(Vector3 newRespawnPoint)
+    {
+        respawnPoint = newRespawnPoint;
+    }
+
+    private void Respawn()
+    {
+        health = maxHealth; // Reset health
+        transform.position = respawnPoint; // Move player to respawn point
+
+        // Update health bar
+        if (healthBar != null)
+        {
+            healthBar.BarValue = health * 10; // Reset health bar value
+        }
     }
 }
