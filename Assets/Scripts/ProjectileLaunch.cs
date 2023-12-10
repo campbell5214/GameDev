@@ -8,10 +8,12 @@ public class ProjectileLaunch : MonoBehaviour
     public Transform launchPoint;
     public float shootTime;
     private float shootCounter;
+    private Animator playerAnim;
 
     void Start()
     {
         shootCounter = shootTime;
+        playerAnim = GetComponent<Animator>();
     }
 
     void Update()
@@ -42,5 +44,14 @@ public class ProjectileLaunch : MonoBehaviour
         Debug.DrawLine(launchPoint.position, mousePosition, Color.red, 2f);
 
         Debug.Log("Mouse Position in World Coordinates: " + mousePosition);
+
+        StartCoroutine(CastCoroutine());
+    }
+
+    IEnumerator CastCoroutine()
+    {
+        playerAnim.SetBool("isCasting", true);
+        yield return new WaitForSeconds(0);
+        playerAnim.SetBool("isCasting", false);
     }
 }

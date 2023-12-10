@@ -18,11 +18,13 @@ public class playerController : MonoBehaviour
     public bool KnockFromRIght;
 
     private PlayerHealth playerHealth;
+    private Animator playerAnim;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerHealth = GetComponent<PlayerHealth>(); // Assuming PlayerHealth script is attached to the same GameObject
+        playerAnim = GetComponent<Animator>();
     }
 
     void Update()
@@ -30,6 +32,16 @@ public class playerController : MonoBehaviour
         if (KBCOunter <= 0)
         {
             move = Input.GetAxis("Horizontal");
+            //Debug.Log(move);
+
+            if (move != 0)
+            {
+                playerAnim.SetBool("isWalking", true);
+            } else
+            {
+                playerAnim.SetBool("isWalking", false);
+            }
+
             rb.velocity = new Vector2(speed * move, rb.velocity.y);
         }
         else
