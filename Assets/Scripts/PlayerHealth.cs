@@ -9,6 +9,7 @@ public class PlayerHealth : MonoBehaviour
     private Vector3 respawnPoint;
 
     public ProgressBar healthBar; // Reference to the health bar
+    public RespawnText respawnText; // Reference to the RespawnText script
 
     void Start()
     {
@@ -39,6 +40,12 @@ public class PlayerHealth : MonoBehaviour
     public void SetRespawnPoint(Vector3 newRespawnPoint)
     {
         respawnPoint = newRespawnPoint;
+
+        // Show "Respawned" text
+        if (respawnText != null)
+        {
+            respawnText.ShowRespawnText();
+        }
     }
 
     private void Respawn()

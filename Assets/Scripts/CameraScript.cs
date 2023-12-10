@@ -9,7 +9,8 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Follow the player's position horizontally and vertically
-        transform.position = new Vector3(target.transform.position.x, target.transform.position.y, -100);
+        // Follow the player's position horizontally and vertically with an offset
+        float offsetY = 60.0f; // Adjust this value to set the desired offset
+        transform.position = new Vector3(target.transform.position.x, target.transform.position.y + offsetY, -90);
     }
 }
