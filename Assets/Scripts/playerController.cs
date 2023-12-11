@@ -34,7 +34,7 @@ public class playerController : MonoBehaviour
 
     void Update()
     {
-
+        isGrounded = gC.isGrounded;
         
         if (KBCOunter <= 0)
         {
@@ -71,7 +71,7 @@ public class playerController : MonoBehaviour
             rb.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
             maxJump--;
         }
-        isGrounded = gC.isGrounded;
+        
 
         if(Input.GetButton("Escape"))
         {
