@@ -40,16 +40,24 @@ public class ProjectileBehaviour : MonoBehaviour
    */
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("WeakPoint")) // Assuming enemy tag is "Enemy"
+        if (collision.gameObject.CompareTag("WeakPoint"))
         {
-            collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
-            
+            EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(damage);
+                Debug.Log("Damage dealt");
+            }
+            else
+            {
+                Debug.LogWarning("EnemyHealth component not found on collided object");
+            }
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
-        Debug.Log("yabababdghasahnfjs");
+        Debug.Log("Projectile collided");
     }
 
-    public Vector2 ShootAngle()
+        public Vector2 ShootAngle()
     {
         Vector2 shootDir = mousePos - projectileRb.position;
         float angle = Mathf.Atan2(shootDir.y, shootDir.x) * Mathf.Rad2Deg - 90f;

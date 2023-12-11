@@ -4,29 +4,42 @@ using UnityEngine;
 
 public class MonsterMovement : MonoBehaviour
 {
-
     public Transform[] patrolPoints;
     public float moveSpeed;
-    public int patrolDestination;
+    private int patrolDestination;
+    public bool isAttacking = false;
 
-    // Update is called once per frame
     void Update()
     {
-        if (patrolDestination == 0)
+        if (isAttacking)
         {
-            transform.position = Vector2.MoveTowards(transform.position, patrolPoints[0].position, moveSpeed * Time.deltaTime);
-            if (Vector2.Distance(transform.position, patrolPoints[0].position) < 1f)
-            {
-                patrolDestination = 1;
-            }
+            // Stop moving while attacking
+            return;
         }
-        if (patrolDestination == 1)
+
+        PatrolBetweenPoints();
+    }
+
+    private void PatrolBetweenPoints()
+    {
+        // Move towards the current patrol point
+        transform.position = Vector2.MoveTowards(transform.position, patrolPoints[patrolDestination].position, moveSpeed * Time.deltaTime);
+
+        // Check if the patrol point is reached
+        if (Vector2.Distance(transform.position, patrolPoints[patrolDestination].position) < 1f)
         {
-            transform.position = Vector2.MoveTowards(transform.position, patrolPoints[1].position, moveSpeed * Time.deltaTime);
-            if (Vector2.Distance(transform.position, patrolPoints[1].position) < 1f)
-            {
-                patrolDestination = 0;
-            }
+            // Switch to the next patrol point
+            patrolDestination = (patrolDestination + 1) % patrolPoints.Length;
         }
+    }
+
+    public void StartAttacking()
+    {
+        isAttacking = true;
+    }
+
+    public void StopAttacking()
+    {
+        isAttacking = false;
     }
 }
