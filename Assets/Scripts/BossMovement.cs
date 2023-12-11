@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterMovement : MonoBehaviour
+public class BossMovement : MonoBehaviour
 {
     public Transform[] patrolPoints;
     public float moveSpeed;
@@ -22,8 +22,6 @@ public class MonsterMovement : MonoBehaviour
 
     private void PatrolBetweenPoints()
     {
-        if (patrolPoints.Length == 0) return; // Check if patrolPoints array is empty
-
         // Move towards the current patrol point
         transform.position = Vector2.MoveTowards(transform.position, patrolPoints[patrolDestination].position, moveSpeed * Time.deltaTime);
 
@@ -34,7 +32,6 @@ public class MonsterMovement : MonoBehaviour
             patrolDestination = (patrolDestination + 1) % patrolPoints.Length;
         }
     }
-
 
     public void StartAttacking()
     {
