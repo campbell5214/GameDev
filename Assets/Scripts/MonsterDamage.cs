@@ -44,6 +44,7 @@ public class MonsterDamage : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            onDead.Invoke();
             Die();
         }
     }
@@ -52,12 +53,13 @@ public class MonsterDamage : MonoBehaviour
     {
         // Handle enemy death
         Destroy(gameObject);
-        onDead.Invoke();
+        
     }
 
     public void drop()
     {
-        GameObject heart = Instantiate(heartprefab,transform,true);
+        Instantiate(heartprefab,gameObject.transform.position,gameObject.transform.rotation);
+        Debug.Log("Dropped");
     }
 
 }
