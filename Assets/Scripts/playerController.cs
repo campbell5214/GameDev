@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class playerController : MonoBehaviour
 {
     public groundCheck gC;
     public float speed;
     public float jump;
+    public UnityEvent end;
 
     private float move;
     private bool isGrounded;
@@ -70,6 +73,11 @@ public class playerController : MonoBehaviour
         }
         isGrounded = gC.isGrounded;
 
+        if(Input.GetButton("Escape"))
+        {
+            Application.Quit();
+        }
+
         if(isGrounded)
         {
             maxJump = 1;
@@ -81,6 +89,10 @@ public class playerController : MonoBehaviour
         if (collision.collider.CompareTag("Heart"))
         {
             playerHealth.TakeDamage(-10);
+        }
+        if(collision.collider.CompareTag("End"))
+        {
+            end.Invoke();
         }
     }
 

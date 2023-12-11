@@ -9,6 +9,7 @@ TagManager:
   - Fireball
   - CheckPoint
   - Heart
+  - End
   layers:
   - Default
   - TransparentFX
