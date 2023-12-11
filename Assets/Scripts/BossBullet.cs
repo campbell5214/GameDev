@@ -32,7 +32,7 @@ public class BossBullet : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (timer > 7)
+        if (timer > 20)
         {
             Destroy(gameObject);
         }
