@@ -28,7 +28,7 @@ public class BossShooting : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            if (timer > 3) // Adjust the shooting interval as needed
+            if (timer > 2) // Adjust the shooting interval as needed
             {
                 if (!bossMovement.isAttacking)
                 {

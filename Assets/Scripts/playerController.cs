@@ -37,7 +37,8 @@ public class playerController : MonoBehaviour
             if (move != 0)
             {
                 playerAnim.SetBool("isWalking", true);
-            } else
+            }
+            else
             {
                 playerAnim.SetBool("isWalking", false);
             }
@@ -67,11 +68,19 @@ public class playerController : MonoBehaviour
         {
             Application.Quit();
 
-            // If you are running in the Unity Editor
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #endif      }    
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+
+            // If you are running in the Unity Editor
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+            #endif
+        }
+
+
+    }
 
         void OnCollisionEnter2D(Collision2D other)
     {
