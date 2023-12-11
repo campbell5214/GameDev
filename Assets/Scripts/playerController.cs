@@ -23,7 +23,7 @@ public class playerController : MonoBehaviour
 
     private PlayerHealth playerHealth;
     //private Animator playerAnim;
-    private int maxJump = 1;
+    private int maxJump = 2;
 
     void Start()
     {
@@ -70,6 +70,7 @@ public class playerController : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
             maxJump--;
+            isGrounded = false;
         }
         
 
@@ -80,7 +81,7 @@ public class playerController : MonoBehaviour
 
         if(isGrounded)
         {
-            maxJump = 1;
+            maxJump = 2;
         }
     }
 
