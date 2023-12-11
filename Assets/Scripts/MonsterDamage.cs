@@ -57,7 +57,7 @@ public class MonsterDamage : MonoBehaviour
 
     public void drop()
     {
-        GameObject heart = Instantiate(heartprefab,transform);
+        GameObject heart = Instantiate(heartprefab,transform,true);
     }
 
 }
