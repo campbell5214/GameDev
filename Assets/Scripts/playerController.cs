@@ -63,9 +63,17 @@ public class playerController : MonoBehaviour
             rb.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
             isGrounded = false;
         }
-    }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
 
-    void OnCollisionEnter2D(Collision2D other)
+            // If you are running in the Unity Editor
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif      }    
+        }
+
+        void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground"))
         {
