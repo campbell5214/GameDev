@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MonsterDamage : MonoBehaviour
 {
@@ -9,7 +10,9 @@ public class MonsterDamage : MonoBehaviour
     public PlayerHealth playerHealth;
     public playerController PlayerController;
     public int health = 100;
+    public GameObject heartprefab;
 
+    public UnityEvent onDead;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -49,7 +52,12 @@ public class MonsterDamage : MonoBehaviour
     {
         // Handle enemy death
         Destroy(gameObject);
+        onDead.Invoke();
     }
 
+    public void drop()
+    {
+        GameObject heart = Instantiate(heartprefab,transform);
+    }
 
 }

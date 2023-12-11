@@ -32,7 +32,7 @@ public class playerController : MonoBehaviour
     void Update()
     {
 
-        isGrounded = gC.isGrounded;
+        
         if (KBCOunter <= 0)
         {
             move = Input.GetAxis("Horizontal");
@@ -68,13 +68,22 @@ public class playerController : MonoBehaviour
             rb.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
             maxJump--;
         }
+        isGrounded = gC.isGrounded;
+
         if(isGrounded)
         {
             maxJump = 1;
         }
     }
 
-    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Heart"))
+        {
+            playerHealth.TakeDamage(-10);
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
