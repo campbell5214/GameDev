@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class playerController : MonoBehaviour
 {
+    public groundCheck gC;
     public float speed;
     public float jump;
 
@@ -19,6 +20,7 @@ public class playerController : MonoBehaviour
 
     private PlayerHealth playerHealth;
     //private Animator playerAnim;
+    private int maxJump = 1;
 
     void Start()
     {
@@ -29,6 +31,8 @@ public class playerController : MonoBehaviour
 
     void Update()
     {
+
+        isGrounded = gC.isGrounded;
         if (KBCOunter <= 0)
         {
             move = Input.GetAxis("Horizontal");
@@ -59,36 +63,18 @@ public class playerController : MonoBehaviour
             KBCOunter -= Time.deltaTime;
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && maxJump>0)
         {
             rb.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-            isGrounded = false;
+            maxJump--;
+        }
+        if(isGrounded)
+        {
+            maxJump = 1;
         }
     }
 
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
-    }
-
-    void OnCollisionStay2D(Collision2D other)
-    {
-        if (!isGrounded && other.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
